@@ -1,6 +1,15 @@
 # Based on https://matansilver.com/2017/08/29/universal-makefile/
 # Modified by MaxXing
 
+# Settings
+# Set to 0 to enable C mode
+CPP_MODE := 1
+ifeq ($(CPP_MODE), 0)
+FB_EXT := .c
+else
+FB_EXT := .cpp
+endif
+
 # Flags
 CFLAGS := -Wall -std=c11
 CXXFLAGS := -Wall -Wno-register -std=c++17
@@ -36,8 +45,8 @@ CXXFLAGS += -I$(INC_DIR)
 LDFLAGS += -L$(LIB_DIR) -lkoopa
 
 # Source files & target files
-FB_SRCS := $(patsubst $(SRC_DIR)/%.l, $(BUILD_DIR)/%.lex.cpp, $(shell find $(SRC_DIR) -name *.l))
-FB_SRCS += $(patsubst $(SRC_DIR)/%.y, $(BUILD_DIR)/%.tab.cpp, $(shell find $(SRC_DIR) -name *.y))
+FB_SRCS := $(patsubst $(SRC_DIR)/%.l, $(BUILD_DIR)/%.lex$(FB_EXT), $(shell find $(SRC_DIR) -name *.l))
+FB_SRCS += $(patsubst $(SRC_DIR)/%.y, $(BUILD_DIR)/%.tab$(FB_EXT), $(shell find $(SRC_DIR) -name *.y))
 SRCS := $(FB_SRCS) $(shell find $(SRC_DIR) -name *.c -or -name *.cpp -or -name *.cc)
 OBJS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.c.o, $(SRCS))
 OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.cpp.o, $(OBJS))
@@ -73,12 +82,12 @@ $(BUILD_DIR)/%.cpp.o: $(BUILD_DIR)/%.cpp; $(cxx_recipe)
 $(BUILD_DIR)/%.cc.o: $(SRC_DIR)/%.cc; $(cxx_recipe)
 
 # Flex
-$(BUILD_DIR)/%.lex.cpp: $(SRC_DIR)/%.l
+$(BUILD_DIR)/%.lex$(FB_EXT): $(SRC_DIR)/%.l
 	mkdir -p $(dir $@)
 	$(FLEX) $(FFLAGS) -o $@ $<
 
 # Bison
-$(BUILD_DIR)/%.tab.cpp: $(SRC_DIR)/%.y
+$(BUILD_DIR)/%.tab$(FB_EXT): $(SRC_DIR)/%.y
 	mkdir -p $(dir $@)
 	$(BISON) $(BFLAGS) -o $@ $<
 
