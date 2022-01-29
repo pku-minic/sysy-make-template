@@ -28,8 +28,8 @@ CXXFLAGS += -O2
 endif
 
 # Compilers
-CC := gcc
-CXX := g++
+CC := clang
+CXX := clang++
 FLEX := flex
 BISON := bison
 
@@ -68,9 +68,12 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(FB_SRCS) $(OBJS)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $@
 
 # C source
-$(BUILD_DIR)/%.c.o: $(SRC_DIR)/%.c
+define c_recipe
 	mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+endef
+$(BUILD_DIR)/%.c.o: $(SRC_DIR)/%.c; $(c_recipe)
+$(BUILD_DIR)/%.c.o: $(BUILD_DIR)/%.c; $(c_recipe)
 
 # C++ source
 define cxx_recipe
