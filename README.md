@@ -28,14 +28,18 @@ rm -rf .git
 git init
 ```
 
-然后将自己的编译器的源文件放入 `src` 目录.
+然后, 根据情况修改 `Makefile` 中的 `CPP_MODE` 参数. 如果你决定使用 C 语言进行开发, 你应该将其值改为 `0`.
+
+最后, 将自己的编译器的源文件放入 `src` 目录.
 
 ## 评测平台要求
 
 当你提交一个根目录包含 `Makefile` 文件的仓库时, 评测平台会使用如下命令编译你的编译器:
 
 ```sh
-make BUILD_DIR="build目录的路径" -C "你的repo的路径"
+make BUILD_DIR="build目录" LIB_DIR="libkoopa目录" INC_DIR="libkoopa头文件目录" -C "repo目录"
 ```
 
-你的 Makefile 必须依据 `BUILD_DIR` 参数的值, 将生成的可执行文件输出到该路径中, 并命名为 `compiler`.
+你的 `Makefile` 必须依据 `BUILD_DIR` 参数的值, 将生成的可执行文件输出到该路径中, 并命名为 `compiler`.
+
+如需链接 `libkoopa`, 你的 `Makefile` 应当处理 `LIB_DIR` 和 `INC_DIR`.
