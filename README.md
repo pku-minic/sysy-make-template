@@ -14,7 +14,7 @@
 git clone https://github.com/pku-minic/sysy-make-template.git
 ```
 
-进入仓库目录后执行 `make` 即可编译得到可执行文件 (默认位于 `build/compiler`):
+在 [compiler-dev](https://github.com/pku-minic/compiler-dev) 环境内, 进入仓库目录后执行 `make` 即可编译得到可执行文件 (默认位于 `build/compiler`):
 
 ```sh
 cd sysy-make-template
@@ -32,9 +32,9 @@ git init
 
 最后, 将自己的编译器的源文件放入 `src` 目录.
 
-## 评测平台要求
+## 测试要求
 
-当你提交一个根目录包含 `Makefile` 文件的仓库时, 评测平台会使用如下命令编译你的编译器:
+当你提交一个根目录包含 `Makefile` 文件的仓库时, 测试脚本/评测平台会使用如下命令编译你的编译器:
 
 ```sh
 make BUILD_DIR="build目录" LIB_DIR="libkoopa目录" INC_DIR="libkoopa头文件目录" -C "repo目录"
@@ -43,3 +43,5 @@ make BUILD_DIR="build目录" LIB_DIR="libkoopa目录" INC_DIR="libkoopa头文件
 你的 `Makefile` 必须依据 `BUILD_DIR` 参数的值, 将生成的可执行文件输出到该路径中, 并命名为 `compiler`.
 
 如需链接 `libkoopa`, 你的 `Makefile` 应当处理 `LIB_DIR` 和 `INC_DIR`.
+
+模板中的 `Makefile` 已经处理了上述内容, 你无需额外关心.
