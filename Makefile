@@ -18,13 +18,13 @@ BFLAGS := -d
 LDFLAGS :=
 
 # Debug flags
-DEBUG ?= 0
+DEBUG ?= 1
 ifeq ($(DEBUG), 0)
-CFLAGS += -g -O0
-CXXFLAGS += -g -O0
-else
 CFLAGS += -O2
 CXXFLAGS += -O2
+else
+CFLAGS += -g -O0
+CXXFLAGS += -g -O0
 endif
 
 # Compilers
